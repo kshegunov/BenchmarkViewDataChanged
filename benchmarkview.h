@@ -2,25 +2,54 @@
 #define BENCHMARKVIEW_H
 
 #include <QTableView>
-class BenchMarkView : public QTableView
+
+class BenchmarkViewPrivate;
+class BenchmarkView : public QTableView
 {
     Q_OBJECT
-    Q_DISABLE_COPY(BenchMarkView)
-    QTableViewPrivate* d_func();
-    const QTableViewPrivate* d_func() const;
+    Q_DISABLE_COPY(BenchmarkView)
+    Q_DECLARE_PRIVATE(BenchmarkView)
+
 public:
-    enum BenchMarkType{
-      NoChange
-      , JoinRects
-      , UpdateOnEach
-    };
-    explicit BenchMarkView(BenchMarkType typ,QWidget* parent = Q_NULLPTR);
-Q_SIGNALS:
+    explicit BenchmarkView(QWidget * parent = nullptr);
+
+signals:
     void dataChangedElapsed(qint64 mSec);
-protected Q_SLOTS:
-    void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
-private:
-    const BenchMarkType m_tpy;
+
+public slots:
+    void clearTimer();
+
+protected:
+    virtual void doUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
+
+protected slots:
+    void dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &) override;
+};
+
+class BenchmarkViewJoinRects : public BenchmarkView
+{
+    Q_OBJECT
+    Q_DISABLE_COPY(BenchmarkViewJoinRects)
+    Q_DECLARE_PRIVATE(BenchmarkView)
+
+public:
+    using BenchmarkView::BenchmarkView;
+
+protected:
+    void doUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &) override;
+};
+
+class BenchmarkViewUpdateEach : public BenchmarkView
+{
+    Q_OBJECT
+    Q_DISABLE_COPY(BenchmarkViewUpdateEach)
+    Q_DECLARE_PRIVATE(BenchmarkView)
+
+public:
+    using BenchmarkView::BenchmarkView;
+
+protected:
+    void doUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &) override;
 };
 
 #endif // BENCHMARKVIEW_H

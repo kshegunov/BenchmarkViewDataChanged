@@ -1,64 +1,69 @@
 #include "benchmarkview.h"
 #include "benchmarkmodel.h"
+
+#include "ui_benchmarkview.h"
+
 #include <QApplication>
 #include <QWidget>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QGridLayout>
-#include <QLabel>
+
+void fillModel(QAbstractItemModel & model)
+{
+    QPixmap bluePix(20, 20);
+    bluePix.fill(Qt::blue);
+
+    const int rows = 1000;
+    const int cols = 100;
+
+    model.insertRows(0, rows);
+    model.insertColumns(0, cols);
+    for (int i = 0; i < rows; ++i)  {
+        for (int j = 0; j < cols; ++j)  {
+            model.setData(model.index(i, j), QString::number(i) + ";" + QString::number(j));
+            if (qrand() & 1)
+                model.setData(model.index(i, j), bluePix, Qt::DecorationRole);
+        }
+    }
+}
+
+void updateIndicator(qint64 mseconds, QLabel * label)
+{
+    label->setText(QStringLiteral("dataChanged took %1 msec").arg(mseconds));
+}
+
 int main(int argc, char *argv[])
 {
     qsrand(88);
-    QApplication a(argc, argv);
-    QWidget w;
-    auto baseModel = new BenchmarkModel(&w);
-    QPixmap bluePix(20,20);
-    bluePix.fill(Qt::blue);
-    baseModel->insertRows(0,1000);
-    baseModel->insertColumns(0,100);
-    for(int i=0;i<baseModel->rowCount();++i){
-        for(int j=0;j<baseModel->columnCount();++j){
-            baseModel->setData(baseModel->index(i,j),QString::number(i)+";"+QString::number(j));
-            if(qrand()%2==0)
-                baseModel->setData(baseModel->index(i,j),bluePix,Qt::DecorationRole);
-        }
 
-    }
-    auto changeAllButton=new QPushButton(QStringLiteral("Data Change All"),&w);
-    auto change4Button=new QPushButton(QStringLiteral("Data Change 4 Items"),&w);
-    auto buttonLay= new QHBoxLayout;
-    buttonLay->addWidget(changeAllButton);
-    buttonLay->addWidget(change4Button);
-    buttonLay->addStretch();
-    QObject::connect(changeAllButton,&QPushButton::clicked,baseModel,&BenchmarkModel::dataChangeAll);
-    QObject::connect(change4Button,&QPushButton::clicked,baseModel,&BenchmarkModel::dataChangeTop4);
-    auto viewsLay= new QGridLayout;
-    auto noChangeView = new BenchMarkView(BenchMarkView::NoChange,&w);
-    auto joinRectsView = new BenchMarkView(BenchMarkView::JoinRects,&w);
-    auto updateOnEachView = new BenchMarkView(BenchMarkView::UpdateOnEach,&w);
-    auto noChangeLabel = new QLabel(&w);
-    auto joinRectsLabel = new QLabel(&w);
-    auto updateOnEachLabel = new QLabel(&w);
-    noChangeView->setModel(baseModel);
-    joinRectsView->setModel(baseModel);
-    updateOnEachView->setModel(baseModel);
-    QObject::connect(noChangeView,&BenchMarkView::dataChangedElapsed,noChangeLabel,[noChangeLabel](qint64 mSec){noChangeLabel->setText(QStringLiteral("dataChanged took %1msec").arg(mSec));});
-    QObject::connect(joinRectsView,&BenchMarkView::dataChangedElapsed,noChangeLabel,[joinRectsLabel](qint64 mSec){joinRectsLabel->setText(QStringLiteral("dataChanged took %1msec").arg(mSec));});
-    QObject::connect(updateOnEachView,&BenchMarkView::dataChangedElapsed,noChangeLabel,[updateOnEachLabel](qint64 mSec){updateOnEachLabel->setText(QStringLiteral("dataChanged took %1msec").arg(mSec));});
-    viewsLay->addWidget(new QLabel(QStringLiteral("Current Implementation"),&w),0,0);
-    viewsLay->addWidget(new QLabel(QStringLiteral("Join visualRect"),&w),0,1);
-    viewsLay->addWidget(new QLabel(QStringLiteral("call update on each item"),&w),0,2);
-    viewsLay->addWidget(noChangeView,1,0);
-    viewsLay->addWidget(joinRectsView,1,1);
-    viewsLay->addWidget(updateOnEachView,1,2);
-    viewsLay->addWidget(noChangeLabel,2,0);
-    viewsLay->addWidget(joinRectsLabel,2,1);
-    viewsLay->addWidget(updateOnEachLabel,2,2);
-    auto mainLay = new QVBoxLayout(&w);
-    mainLay->addLayout(buttonLay);
-    mainLay->addLayout(viewsLay);
-    w.show();
+    QApplication app(argc, argv);
+    QWidget window;
 
-    return a.exec();
+    Q_UNUSED(app);
+
+    BenchmarkModel model;
+    fillModel(model);
+
+    Ui::Window ui;
+    ui.setupUi(&window);
+
+    ui.defaultView->setModel(&model);
+    ui.rectJoinView->setModel(&model);
+    ui.updateCompressionView->setModel(&model);
+
+    QObject::connect(ui.update4ItemsButton, &QPushButton::clicked, ui.defaultView, &BenchmarkView::clearTimer);
+    QObject::connect(ui.update4ItemsButton, &QPushButton::clicked, ui.rectJoinView, &BenchmarkView::clearTimer);
+    QObject::connect(ui.update4ItemsButton, &QPushButton::clicked, ui.updateCompressionView, &BenchmarkView::clearTimer);
+
+    QObject::connect(ui.updateAllButton, &QPushButton::clicked, ui.defaultView, &BenchmarkView::clearTimer);
+    QObject::connect(ui.updateAllButton, &QPushButton::clicked, ui.rectJoinView, &BenchmarkView::clearTimer);
+    QObject::connect(ui.updateAllButton, &QPushButton::clicked, ui.updateCompressionView, &BenchmarkView::clearTimer);
+
+    QObject::connect(ui.update4ItemsButton, &QPushButton::clicked, &model, &BenchmarkModel::dataChangeTop4);
+    QObject::connect(ui.updateAllButton, &QPushButton::clicked, &model, &BenchmarkModel::dataChangeAll);
+
+    QObject::connect(ui.defaultView, &BenchmarkView::dataChangedElapsed, ui.defaultElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.defaultElapsed));
+    QObject::connect(ui.rectJoinView, &BenchmarkView::dataChangedElapsed, ui.rectJoinElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.rectJoinElapsed));
+    QObject::connect(ui.updateCompressionView, &BenchmarkView::dataChangedElapsed, ui.updateCompressionElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.updateCompressionElapsed));
+
+    window.show();
+    return QApplication::exec();
 }
