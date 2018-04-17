@@ -48,6 +48,8 @@ int main(int argc, char *argv[])
     ui.defaultView->setModel(&model);
     ui.rectJoinView->setModel(&model);
     ui.updateCompressionView->setModel(&model);
+    ui.updateHeuristicView->setModel(&model);
+    ui.mashupView->setModel(&model);
 
     for(QPushButton* singleButton : {ui.update4ItemsButton,ui.updateAllButton,ui.customUpdateButton}){
         QObject::connect(singleButton, &QPushButton::clicked, ui.defaultView, &BenchmarkView::clearTimer);
@@ -63,6 +65,8 @@ int main(int argc, char *argv[])
     QObject::connect(ui.defaultView, &BenchmarkView::dataChangedElapsed, ui.defaultElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.defaultElapsed));
     QObject::connect(ui.rectJoinView, &BenchmarkView::dataChangedElapsed, ui.rectJoinElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.rectJoinElapsed));
     QObject::connect(ui.updateCompressionView, &BenchmarkView::dataChangedElapsed, ui.updateCompressionElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.updateCompressionElapsed));
+    QObject::connect(ui.updateHeuristicView, &BenchmarkView::dataChangedElapsed, ui.updateHeuristicElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.updateHeuristicElapsed));
+    QObject::connect(ui.mashupView, &BenchmarkView::dataChangedElapsed, ui.mashupElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.mashupElapsed));
 
     window.show();
     return QApplication::exec();

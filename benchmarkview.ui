@@ -67,6 +67,40 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="3">
+      <widget class="BenchmarkViewUpdateHeuristic" name="updateHeuristicView"/>
+     </item>
+     <item row="1" column="4">
+      <widget class="BenchmarkViewMashup" name="mashupView"/>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Update Compression + Heuristic</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Mashup</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLabel" name="updateHeuristicElapsed">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLabel" name="mashupElapsed">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -155,6 +189,16 @@
   </customwidget>
   <customwidget>
    <class>BenchmarkViewUpdateEach</class>
+   <extends>QTableView</extends>
+   <header>benchmarkview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>BenchmarkViewUpdateHeuristic</class>
+   <extends>QTableView</extends>
+   <header>benchmarkview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>BenchmarkViewMashup</class>
    <extends>QTableView</extends>
    <header>benchmarkview.h</header>
   </customwidget>

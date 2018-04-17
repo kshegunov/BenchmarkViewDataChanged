@@ -52,4 +52,30 @@ protected:
     void doUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &) override;
 };
 
+class BenchmarkViewUpdateHeuristic : public BenchmarkView
+{
+    Q_OBJECT
+    Q_DISABLE_COPY(BenchmarkViewUpdateEach)
+    Q_DECLARE_PRIVATE(BenchmarkView)
+
+public:
+    using BenchmarkView::BenchmarkView;
+
+protected:
+    void doUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &) override;
+};
+
+class BenchmarkViewMashup : public BenchmarkView
+{
+    Q_OBJECT
+    Q_DISABLE_COPY(BenchmarkViewUpdateEach)
+    Q_DECLARE_PRIVATE(BenchmarkView)
+
+public:
+    using BenchmarkView::BenchmarkView;
+
+protected:
+    void doUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &) override;
+};
+
 #endif // BENCHMARKVIEW_H
