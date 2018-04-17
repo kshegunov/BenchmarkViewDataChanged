@@ -14,5 +14,6 @@ public:
 public slots:
     void dataChangeAll();
     void dataChangeTop4();
+    void dataCgangedCustom(int row, int col);
 };
 #endif // BENCHMARKMODEL_H

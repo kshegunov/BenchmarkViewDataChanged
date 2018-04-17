@@ -5,7 +5,7 @@
 
 #include <QApplication>
 #include <QWidget>
-
+#include <functional>
 void fillModel(QAbstractItemModel & model)
 {
     QPixmap bluePix(20, 20);
@@ -49,16 +49,16 @@ int main(int argc, char *argv[])
     ui.rectJoinView->setModel(&model);
     ui.updateCompressionView->setModel(&model);
 
-    QObject::connect(ui.update4ItemsButton, &QPushButton::clicked, ui.defaultView, &BenchmarkView::clearTimer);
-    QObject::connect(ui.update4ItemsButton, &QPushButton::clicked, ui.rectJoinView, &BenchmarkView::clearTimer);
-    QObject::connect(ui.update4ItemsButton, &QPushButton::clicked, ui.updateCompressionView, &BenchmarkView::clearTimer);
+    for(QPushButton* singleButton : {ui.update4ItemsButton,ui.updateAllButton,ui.customUpdateButton}){
+        QObject::connect(singleButton, &QPushButton::clicked, ui.defaultView, &BenchmarkView::clearTimer);
+        QObject::connect(singleButton, &QPushButton::clicked, ui.rectJoinView, &BenchmarkView::clearTimer);
+        QObject::connect(singleButton, &QPushButton::clicked, ui.updateCompressionView, &BenchmarkView::clearTimer);
+    }
 
-    QObject::connect(ui.updateAllButton, &QPushButton::clicked, ui.defaultView, &BenchmarkView::clearTimer);
-    QObject::connect(ui.updateAllButton, &QPushButton::clicked, ui.rectJoinView, &BenchmarkView::clearTimer);
-    QObject::connect(ui.updateAllButton, &QPushButton::clicked, ui.updateCompressionView, &BenchmarkView::clearTimer);
 
     QObject::connect(ui.update4ItemsButton, &QPushButton::clicked, &model, &BenchmarkModel::dataChangeTop4);
     QObject::connect(ui.updateAllButton, &QPushButton::clicked, &model, &BenchmarkModel::dataChangeAll);
+    QObject::connect(ui.customUpdateButton, &QPushButton::clicked, &model,[&ui,&model](){model.dataCgangedCustom(ui.rowSpin->value(),ui.colSpin->value());});
 
     QObject::connect(ui.defaultView, &BenchmarkView::dataChangedElapsed, ui.defaultElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.defaultElapsed));
     QObject::connect(ui.rectJoinView, &BenchmarkView::dataChangedElapsed, ui.rectJoinElapsed, std::bind(&updateIndicator, std::placeholders::_1, ui.rectJoinElapsed));
