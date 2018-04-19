@@ -13,12 +13,6 @@ class BenchmarkView : public QTableView
 public:
     explicit BenchmarkView(QWidget * parent = nullptr);
 
-signals:
-    void dataChangedElapsed(qint64 mSec);
-
-public slots:
-    void clearTimer();
-
 protected:
     virtual void doUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 
@@ -55,7 +49,7 @@ protected:
 class BenchmarkViewUpdateHeuristic : public BenchmarkView
 {
     Q_OBJECT
-    Q_DISABLE_COPY(BenchmarkViewUpdateEach)
+    Q_DISABLE_COPY(BenchmarkViewUpdateHeuristic)
     Q_DECLARE_PRIVATE(BenchmarkView)
 
 public:
@@ -68,7 +62,7 @@ protected:
 class BenchmarkViewMashup : public BenchmarkView
 {
     Q_OBJECT
-    Q_DISABLE_COPY(BenchmarkViewUpdateEach)
+    Q_DISABLE_COPY(BenchmarkViewMashup)
     Q_DECLARE_PRIVATE(BenchmarkView)
 
 public:

@@ -13,7 +13,11 @@ public:
 
 public slots:
     void dataChangeAll();
-    void dataChangeTop4();
-    void dataCgangedCustom(int row, int col);
+    void dataChangeTop(int, int);
+    void dataChangeSpan(int, int, int, int);
+
+private:
+    int rand(int);
+    int rand(int, int);
 };
 #endif // BENCHMARKMODEL_H

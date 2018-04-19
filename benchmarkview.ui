@@ -6,129 +6,118 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1116</width>
-    <height>561</height>
+    <width>790</width>
+    <height>202</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0">
-      <widget class="QLabel" name="defaultElapsed">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="BenchmarkView" name="defaultView"/>
-     </item>
-     <item row="1" column="2">
-      <widget class="BenchmarkViewUpdateEach" name="updateCompressionView"/>
-     </item>
-     <item row="1" column="1">
-      <widget class="BenchmarkViewJoinRects" name="rectJoinView"/>
-     </item>
-     <item row="0" column="1">
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="1">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Default</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Rect calculation</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Event compression</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Full update</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
       <widget class="QLabel" name="label_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Manual rect join</string>
+        <string>Update top</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Default implementation</string>
+     <item>
+      <widget class="QSpinBox" name="topRowsSpinbox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_3">
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Update event compression</string>
+        <string>x</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="rectJoinElapsed">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="updateCompressionElapsed">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="3">
-      <widget class="BenchmarkViewUpdateHeuristic" name="updateHeuristicView"/>
-     </item>
-     <item row="1" column="4">
-      <widget class="BenchmarkViewMashup" name="mashupView"/>
-     </item>
-     <item row="0" column="3">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Update Compression + Heuristic</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Mashup</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <widget class="QLabel" name="updateHeuristicElapsed">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="4">
-      <widget class="QLabel" name="mashupElapsed">
-       <property name="text">
-        <string/>
+     <item>
+      <widget class="QSpinBox" name="topColsSpinbox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Update random</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="4">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QSpinBox" name="rowSpin">
-       <property name="minimum">
-        <number>1</number>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="maximum">
-        <number>1000</number>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
        </property>
-      </widget>
+      </spacer>
      </item>
      <item>
-      <widget class="QSpinBox" name="colSpin">
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="customUpdateButton">
+      <widget class="QPushButton" name="startButton">
        <property name="text">
-        <string>Update Custom</string>
+        <string>Start</string>
        </property>
       </widget>
      </item>
@@ -145,64 +134,73 @@
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QPushButton" name="update4ItemsButton">
-       <property name="text">
-        <string>Update 4 items</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="updateAllButton">
-       <property name="text">
-        <string>Update all</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
     </layout>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="resultDefaultFull">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLabel" name="resultRectFull">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QLabel" name="resultCompressionFull">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="resultDefaultTop">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLabel" name="resultRectTop">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QLabel" name="resultCompressionTop">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="resultDefaultRandom">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLabel" name="resultRectRandom">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QLabel" name="resultCompressionRandom">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>BenchmarkView</class>
-   <extends>QTableView</extends>
-   <header>benchmarkview.h</header>
-  </customwidget>
-  <customwidget>
-   <class>BenchmarkViewJoinRects</class>
-   <extends>QTableView</extends>
-   <header>benchmarkview.h</header>
-  </customwidget>
-  <customwidget>
-   <class>BenchmarkViewUpdateEach</class>
-   <extends>QTableView</extends>
-   <header>benchmarkview.h</header>
-  </customwidget>
-  <customwidget>
-   <class>BenchmarkViewUpdateHeuristic</class>
-   <extends>QTableView</extends>
-   <header>benchmarkview.h</header>
-  </customwidget>
-  <customwidget>
-   <class>BenchmarkViewMashup</class>
-   <extends>QTableView</extends>
-   <header>benchmarkview.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
